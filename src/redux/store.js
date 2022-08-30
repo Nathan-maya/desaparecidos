@@ -1,5 +1,6 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import missigReducer from './missingRedux';
+import fileReducer from './fileRedux';
 import {
   persistStore,
   persistReducer,
@@ -18,7 +19,10 @@ const persistConfig = {
   storage,
 };
 
-const rootReducer = combineReducers({ missing: missigReducer });
+const rootReducer = combineReducers({
+  missing: missigReducer,
+  files: fileReducer,
+});
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 

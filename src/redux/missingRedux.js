@@ -15,11 +15,11 @@ const missingSlice = createSlice({
     },
     addMissingSuccess: (state, action) => {
       state.isFetching = false;
-      state.missing.push(action.payload);
+      state.missing=action.payload;
     },
     addMissingFailure: (state) => {
       state.isFetching = false;
-      state.error = false;
+      state.error = true;
 
     },
   },

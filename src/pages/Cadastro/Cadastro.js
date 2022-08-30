@@ -9,27 +9,29 @@ import {
   LabelFotos,
   Wrapper,
 } from './styleCadastro';
-import app from '../../redux/firebase';
+
 import { addMissing } from '../../redux/apiCalls';
-import { useDispatch } from 'react-redux';
+import { uploadFile } from '../../redux/firebaseCall';
+import { useDispatch, useSelector } from 'react-redux';
 import Header from '../../components/Header/Header';
-import {
-  getStorage,
-  ref,
-  uploadBytesResumable,
-  getDownloadURL,
-} from 'firebase/storage';
+import { clearFile } from '../../redux/fileRedux';
 
 const Cadastro = () => {
   const [inputs, setInputs] = useState('');
   const [files, setFiles] = useState('');
-  const [urls, setUrls] = useState([]);
   const dispatch = useDispatch();
+  const selector = useSelector((state) => {
+    return state.files;
+  });
+  console.log(selector.files.length);
 
   const handleChange = (e) => {
     setInputs((prev) => {
       return { ...prev, [e.target.name]: e.target.value };
     });
+    if (selector.files.length > 0) {
+      dispatch(clearFile());
+    }
   };
 
   const onFileChange = (e) => {
@@ -41,42 +43,17 @@ const Cadastro = () => {
 
   const handleClick = async (e) => {
     e.preventDefault();
-    const promises = [];
-    files.map((file, index) => {
-      const fileName = new Date().getTime() + file.name;
-      const storage = getStorage(app);
-      const storageRef = ref(storage, fileName);
-      const uploadTask = uploadBytesResumable(storageRef, file);
-
-      promises.push(uploadTask);
-      uploadTask.on(
-        'state_changed',
-        (snapshot) => {
-          const progress = Math.round(
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100,
-          );
-        },
-        (error) => {
-          console.log(error);
-        },
-        async () => {
-          await getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            setUrls((prevState) => [...prevState, downloadURL]);
-            console.log(downloadURL);
-          });
-        },
-      );
-    });
+    await uploadFile(files, dispatch);
   };
-
   useEffect(() => {
-    if (urls.length !== files.length || files.length === 0) return;
+    if (selector.files.length > 0) {
+      const missing = { ...inputs, img: selector.files };
+      addMissing(missing, dispatch);
 
-    const missing = { ...inputs, img: urls };
-    addMissing(missing, dispatch);
-    setFiles('');
-    setUrls('');
-  }, [urls]);
+      setFiles('');
+      dispatch(clearFile());
+    }
+  }, [selector, dispatch, inputs]);
 
   return (
     <Container>
@@ -94,7 +71,7 @@ const Cadastro = () => {
           <Label>Municipio:</Label>
           <Input name="municipio" type="text" onChange={handleChange} />
           <Label htmlFor="img" style={LabelFotos}>
-            Enviar fotos
+            Fotos
           </Label>
           <Input
             type="file"

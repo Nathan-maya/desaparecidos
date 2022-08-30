@@ -1,9 +1,11 @@
 import { publicRequest } from '../requestMethod';
+
 import {
   addMissingFailure,
   addMissingStart,
   addMissingSuccess,
 } from './missingRedux';
+
 
 export const addMissing = async (missing, dispatch) => {
   dispatch(addMissingStart());
@@ -11,6 +13,7 @@ export const addMissing = async (missing, dispatch) => {
     const res = await publicRequest.post(`/missing`, missing);
     dispatch(addMissingSuccess(res.data));
   } catch (err) {
+    console.log(err)
     dispatch(addMissingFailure());
   }
 };
