@@ -1,17 +1,23 @@
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from 'react-router-dom';
+
 import './App.css';
-import Header from './components/Header/Header';
-import Highlights from './components/Highlights/Highlights';
-import News from './components/News/News';
-import Slider from './components/Slider/Slider';
+import Cadastro from './pages/Cadastro/Cadastro';
+import Home from './pages/Home/Home';
 
 function App() {
   return (
-    <>
-      <Header />
-      <Slider />
-      <News/>
-      <Highlights/>
-    </>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home/>} />
+        <Route path="/register" element={<Cadastro/>} />
+
+      </Routes>
+    </Router>
   );
 }
 

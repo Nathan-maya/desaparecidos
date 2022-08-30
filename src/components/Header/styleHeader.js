@@ -5,9 +5,7 @@ export const Container = styled.section`
   justify-content: space-between;
   padding: 20px 62px;
   align-items: center;
-  background-color: #424242
-
-;
+  background-color: #424242;
   height: 80px;
   border-bottom:solid white 1px;
 `;
@@ -69,3 +67,7 @@ export const Li = styled.li`
     }
   }}
 `;
+
+export const LinkStyled = {
+  textDecoration: "none"
+}
