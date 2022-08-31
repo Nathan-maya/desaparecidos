@@ -1,3 +1,4 @@
+import { createSlice } from '@reduxjs/toolkit';
 import {
   getStorage,
   ref,
@@ -5,13 +6,45 @@ import {
   getDownloadURL,
 } from 'firebase/storage';
 import app from './firebaseConfig';
-import {
-  uploadFileFailure,
-  uploadFileStart,
-  uploadFileSuccess,
-} from './fileSlice';
+
+const fileSlice = createSlice({
+  name: 'files',
+  initialState: {
+    files: [],
+    isFetching: false,
+    error: false,
+  },
+  reducers: {
+    //upload
+    uploadFileStart: (state) => {
+      state.isFetching = true;
+      state.error = false;
+    },
+    uploadFileSuccess: (state, action) => {
+      console.log(state.files = action.payload)
+      console.log(action.payload)
+      state.isFetching = false;
+      state.files = action.payload
+    },
+    uploadFileFailure: (state) => {
+      state.isFetching = false;
+      state.error = true;
+    },
+    clearFile:(state)=>{
+      console.log('clearFile')
+      state.files=[]
+    }
+  },
+});
+
+export const { uploadFileStart, uploadFileSuccess, uploadFileFailure,clearFile } =
+  fileSlice.actions;
+
+export default fileSlice.reducer;
+
+
 export const uploadFile = async (files, dispatch) => {
-  dispatch(uploadFileStart);
+  dispatch(uploadFileStart); 
   try {
     const urls = [];
     files.map((file, index) => {

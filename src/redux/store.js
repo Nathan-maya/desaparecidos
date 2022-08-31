@@ -1,6 +1,6 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import missigReducer from './missingRedux';
-import fileReducer from './fileRedux';
+import fileReducer from './fileSlice';
 import {
   persistStore,
   persistReducer,
