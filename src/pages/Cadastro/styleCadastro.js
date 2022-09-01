@@ -29,23 +29,25 @@ export const Input = styled.input`
   font-size: 18px;
   height: 100%;
   outline: 0;
-  padding: 4px 20px 0;
+  padding: 10px 20px 10px;
   width: 100%;
 `;
 export const Label = styled.label`
   color: black;
   font-family: sans-serif;
   line-height: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
 `;
 export const LabelFotos = {
-  padding: '5px 0px',
+  padding: '10px 0px',
   background: '#303245',
   color: '#fafafa',
   textTransform: 'uppercase',
   textAlign: 'center',
   display: 'block',
   borderRadius: '12px',
-  cursor:'pointer'
+  cursor: 'pointer',
 };
 export const Button = styled.button`
   margin: 0 auto;
@@ -63,3 +65,14 @@ export const Button = styled.button`
 export const InputFile = {
   display: 'none',
 };
+
+export const Mistakes = styled.div`
+  color: #d8000c;
+  border: 1px solid;
+  margin: 10px 0px;
+  padding: 15px 10px 15px 50px;
+  background: #ffbaba;
+  background-repeat: no-repeat;
+  background-position: 10px center;
+  background-image: url('https://i.imgur.com/GnyDvKN.png');
+`;
