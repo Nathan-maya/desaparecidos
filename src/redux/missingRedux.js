@@ -14,6 +14,7 @@ const missingSlice = createSlice({
       state.error = false;
     },
     addMissingSuccess: (state, action) => {
+      console.log('AddMissing')
       state.isFetching = false;
       state.missing=action.payload;
     },

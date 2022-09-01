@@ -31,6 +31,7 @@ export const Input = styled.input`
   outline: 0;
   padding: 10px 20px 10px;
   width: 100%;
+
 `;
 export const Label = styled.label`
   color: black;

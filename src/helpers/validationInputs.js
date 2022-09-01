@@ -16,6 +16,7 @@ const validadeAddress = (address) => {
 };
 
 export default function validationInputs(inputs) {
+
   const error = [];
   if (!validateName(inputs.nome)) {
     error.push('Nome inválido!');
@@ -33,7 +34,5 @@ export default function validationInputs(inputs) {
 
   return error;
 
-  //fazer outra função
-  // const date = parseISO(inputs.data);
-  // console.log(format(date, 'dd/MM/yyyy'));
+
 }

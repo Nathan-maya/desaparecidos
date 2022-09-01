@@ -21,8 +21,6 @@ const fileSlice = createSlice({
       state.error = false;
     },
     uploadFileSuccess: (state, action) => {
-      console.log(state.files = action.payload)
-      console.log(action.payload)
       state.isFetching = false;
       state.files = action.payload
     },

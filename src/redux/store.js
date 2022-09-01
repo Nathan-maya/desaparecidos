@@ -24,6 +24,7 @@ const rootReducer = combineReducers({
   files: fileReducer,
 });
 
+
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({

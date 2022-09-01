@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import {
-  Button,
   Container,
   Mistakes,
   Form,
@@ -11,13 +11,13 @@ import {
   Wrapper,
 } from './styleCadastro';
 
-import { useForm } from 'react-hook-form';
 import { addMissing } from '../../redux/apiCalls';
 import { uploadFile } from '../../redux/fileSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import Header from '../../components/Header/Header';
 import { clearFile } from '../../redux/fileSlice';
 import validationInputs from '../../helpers/validationInputs';
+import formatDate from '../../helpers/formatDate';
 
 const Cadastro = () => {
   const [inputs, setInputs] = useState({});
@@ -74,28 +74,45 @@ const Cadastro = () => {
    * @param e - The event object.
    */
   const handleClick = async (e) => {
-    /* Uploading the files to firebase storage. */
+    setError([]);
+    requiredMessage.push();
+
     await uploadFile(files, dispatch);
 
     if (Object.keys(inputs).length >= 6) {
       setError(validationInputs(inputs));
     }
-    if (selector.files.length === 0) {
-      setError(['Por favor, envie fotos da pessoa!']);
+    if (files.length === 0) {
+      setError((prevState) => [
+        ...prevState,
+        'Por favor, envie fotos da pessoa!',
+      ]);
     }
   };
+
   /* A hook that is called when the component is mounted. It is checking if the files are uploaded to
 firebase storage, if they are, it is adding the missing person to the database. */
   useEffect(() => {
-    if (selector.files.length > 0) {
+
+    if (
+      selector.files.length > 0 &&
+      Object.keys(inputs).length >= 6 &&
+      error.length === 0
+    ) {
       const missing = { ...inputs, img: selector.files };
-      addMissing(missing, dispatch);
+      missing.data = formatDate(missing.data)
+
+      async function fetchUpload() {
+        console.log('realizando fetch');
+        await addMissing(missing, dispatch);
+      }
+      console.log('chamando fetchUpload');
+      fetchUpload();
 
       setInputs('');
       setFiles([]);
-      dispatch(clearFile());
     }
-  }, [selector, dispatch, inputs]);
+  }, [selector, dispatch, inputs, error, files]);
 
   return (
     <Container>
@@ -103,6 +120,7 @@ firebase storage, if they are, it is adding the missing person to the database. 
       <Wrapper>
         <Form onSubmit={handleSubmit(handleClick)}>
           <Label htmlFor="nome">Nome Completo:</Label>
+
           <Input
             {...register('nome', {
               required: { value: true, message: 'Inserir um nome!' },
@@ -152,6 +170,7 @@ firebase storage, if they are, it is adding the missing person to the database. 
             type="date"
             placeholder="23/05/1999"
             onChange={handleChange}
+            maxLength={4}
           />
           <Label>Municipio:</Label>
           <Input
@@ -183,8 +202,8 @@ firebase storage, if they are, it is adding the missing person to the database. 
             ? error.map((erro) => <Mistakes key={erro}>{erro}</Mistakes>)
             : null}
           {requiredMessage
-            ? requiredMessage.map((erro) => (
-                <Mistakes key={erro}>{erro.message}</Mistakes>
+            ? requiredMessage.map((erro, index) => (
+                <Mistakes key={index}>{erro.message}</Mistakes>
               ))
             : null}
         </Form>
