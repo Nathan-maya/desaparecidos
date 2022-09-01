@@ -26,6 +26,8 @@ const Cadastro = () => {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState([]);
   const dispatch = useDispatch();
+  const maxDate = new Date().toISOString().split('T')[0];
+
   const {
     register,
     handleSubmit,
@@ -172,7 +174,8 @@ firebase storage, if they are, it is adding the missing person to the database. 
             type="date"
             placeholder="23/05/1999"
             onChange={handleChange}
-            maxLength={4}
+            max={maxDate}
+            id="formatMaxDate"
           />
           <Label>Municipio:</Label>
           <Input

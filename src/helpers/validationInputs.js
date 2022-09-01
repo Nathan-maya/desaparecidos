@@ -11,12 +11,17 @@ const validateName = (name) => {
 const validateNumber = (number) => {
   return number.match(/^[0-9]{0,2}$/);
 };
-const validadeAddress = (address) => {
+const validateAddress = (address) => {
   return address.match(/^[a-zA-Z0-9\s,.'-]{3,}$/);
+};
+const validateDate = (date) => {
+  let dateAtual = new Date().toISOString().split('T')[0];
+  if (date > dateAtual) {
+    return true;
+  }
 };
 
 export default function validationInputs(inputs) {
-
   const error = [];
   if (!validateName(inputs.nome)) {
     error.push('Nome inválido!');
@@ -28,11 +33,12 @@ export default function validationInputs(inputs) {
     error.push('E-mail inválido!');
   }
 
-  if (!validadeAddress(inputs.endereco)) {
+  if (!validateAddress(inputs.endereco)) {
     error.push('Por favor, coloque um endereço valido!');
+  }
+  if (validateDate(inputs.data)) {
+    error.push('Por favor, insira a data corretamente');
   }
 
   return error;
-
-
 }
