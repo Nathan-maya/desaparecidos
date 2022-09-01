@@ -31,7 +31,6 @@ export const Input = styled.input`
   outline: 0;
   padding: 10px 20px 10px;
   width: 100%;
-
 `;
 export const Label = styled.label`
   color: black;
@@ -76,4 +75,16 @@ export const Mistakes = styled.div`
   background-repeat: no-repeat;
   background-position: 10px center;
   background-image: url('https://i.imgur.com/GnyDvKN.png');
+`;
+
+export const Success = styled.div`
+  color: #4f8a10;
+  border: 1px solid;
+  margin: 10px 0px;
+  padding: 15px 10px 15px 50px;
+  background-color: #dff2bf;
+  background-image: url('https://i.imgur.com/Q9BGTuy.png');
+  background-repeat: no-repeat;
+  background-position: 10px center;
+  
 `;

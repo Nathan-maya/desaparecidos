@@ -9,6 +9,7 @@ import {
   Label,
   LabelFotos,
   Wrapper,
+  Success,
 } from './styleCadastro';
 
 import { addMissing } from '../../redux/apiCalls';
@@ -22,7 +23,7 @@ import formatDate from '../../helpers/formatDate';
 const Cadastro = () => {
   const [inputs, setInputs] = useState({});
   const [files, setFiles] = useState([]);
-  const [success, setSuccess] = useState([]);
+  const [success, setSuccess] = useState(false);
   const [error, setError] = useState([]);
   const dispatch = useDispatch();
   const {
@@ -74,6 +75,7 @@ const Cadastro = () => {
    * @param e - The event object.
    */
   const handleClick = async (e) => {
+    setSuccess(false);
     setError([]);
     requiredMessage.push();
 
@@ -93,14 +95,13 @@ const Cadastro = () => {
   /* A hook that is called when the component is mounted. It is checking if the files are uploaded to
 firebase storage, if they are, it is adding the missing person to the database. */
   useEffect(() => {
-
     if (
       selector.files.length > 0 &&
       Object.keys(inputs).length >= 6 &&
       error.length === 0
     ) {
       const missing = { ...inputs, img: selector.files };
-      missing.data = formatDate(missing.data)
+      missing.data = formatDate(missing.data);
 
       async function fetchUpload() {
         console.log('realizando fetch');
@@ -109,6 +110,7 @@ firebase storage, if they are, it is adding the missing person to the database. 
       console.log('chamando fetchUpload');
       fetchUpload();
 
+      error.length === 0 ? setSuccess(true) : setSuccess(false);
       setInputs('');
       setFiles([]);
     }
@@ -206,6 +208,7 @@ firebase storage, if they are, it is adding the missing person to the database. 
                 <Mistakes key={index}>{erro.message}</Mistakes>
               ))
             : null}
+          {success ? <Success>Cadastrado com sucesso em nosso banco de dados! Caso o identifiquemos, entraremos em contato!</Success> : false}
         </Form>
       </Wrapper>
     </Container>
