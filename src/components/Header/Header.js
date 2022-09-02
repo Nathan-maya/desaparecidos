@@ -10,7 +10,6 @@ import {
   Ul,
 } from './styleHeader';
 import LogoImg from '../../assets/picwish.png';
-import { Link } from 'react-router-dom';
 
 const Header = () => {
   return (
@@ -35,9 +34,9 @@ const Header = () => {
           <Li>Como Ajudar</Li>
           <Li>Como prevenir</Li>
           <Li>Álbum de fotos</Li>
-          <Link to="/register" style={LinkStyled}>
-            <Li>Cadastro</Li>
-          </Link>
+          <Li>
+            <LinkStyled to="/register">Cadastro</LinkStyled>
+          </Li>
           <Li>Notícias</Li>
         </Ul>
       </Nav>

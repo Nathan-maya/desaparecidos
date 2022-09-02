@@ -26,7 +26,7 @@ export default function validationInputs(inputs) {
   if (!validateName(inputs.nome)) {
     error.push('Nome inválido!');
   }
-  if (!validateNumber(inputs.idade)) {
+  if (!validateNumber(inputs.idade && inputs.idade.length>3)) {
     error.push('Idade inválida!');
   }
   if (!validateEmail(inputs.email)) {

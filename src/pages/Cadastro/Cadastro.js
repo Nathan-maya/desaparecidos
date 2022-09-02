@@ -19,13 +19,16 @@ import Header from '../../components/Header/Header';
 import { clearFile } from '../../redux/fileSlice';
 import validationInputs from '../../helpers/validationInputs';
 import formatDate from '../../helpers/formatDate';
+import { AutoComplete } from '../../components/AutoComplete/AutoComplete';
 
 const Cadastro = () => {
   const [inputs, setInputs] = useState({});
   const [files, setFiles] = useState([]);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState([]);
+  const [estadoAutoComplete, setEstadoAutoComplete] = useState([]);
   const dispatch = useDispatch();
+
   const maxDate = new Date().toISOString().split('T')[0];
 
   const {
@@ -47,6 +50,8 @@ const Cadastro = () => {
   });
   const requiredMessage = Object.values(errors);
 
+  
+
   /* It takes the event object, and then it sets the state of the inputs to the previous state, and then
    * it returns the previous state with the new value of the input.
    * @param e - the event object
@@ -58,6 +63,12 @@ const Cadastro = () => {
     if (selector.files.length > 0) {
       dispatch(clearFile());
     }
+    if(estadoAutoComplete?.length>0) {
+      e.target.value = estadoAutoComplete
+      setEstadoAutoComplete(null)
+      console.log(estadoAutoComplete)
+    }
+
   };
 
   /**
@@ -141,6 +152,7 @@ firebase storage, if they are, it is adding the missing person to the database. 
             placeholder="23"
             type="text"
             onChange={handleChange}
+            maxLength={2}
           />
           <Label htmlFor="endereco">Endereço:</Label>
           <Input
@@ -184,8 +196,19 @@ firebase storage, if they are, it is adding the missing person to the database. 
             })}
             placeholder="São Paulo - SP"
             type="text"
-            onChange={handleChange}
+            onChange={(e) => {
+              handleChange(e);
+            }}
           />
+          {inputs?.municipio ? (
+            <AutoComplete
+              inputValue={inputs.municipio}
+              passChildEstado={setEstadoAutoComplete}
+            />
+          ) : (
+            false
+          )}
+
           <Label htmlFor="img" style={LabelFotos}>
             Fotos
           </Label>
@@ -211,7 +234,14 @@ firebase storage, if they are, it is adding the missing person to the database. 
                 <Mistakes key={index}>{erro.message}</Mistakes>
               ))
             : null}
-          {success ? <Success>Cadastrado com sucesso em nosso banco de dados! Caso o identifiquemos, entraremos em contato!</Success> : false}
+          {success ? (
+            <Success>
+              Cadastrado com sucesso em nosso banco de dados! Caso o
+              identifiquemos, entraremos em contato!
+            </Success>
+          ) : (
+            false
+          )}
         </Form>
       </Wrapper>
     </Container>

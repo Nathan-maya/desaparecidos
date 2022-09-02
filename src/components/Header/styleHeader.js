@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 export const Container = styled.section`
@@ -7,7 +8,7 @@ export const Container = styled.section`
   align-items: center;
   background-color: #424242;
   height: 80px;
-  border-bottom:solid white 1px;
+  border-bottom: solid white 1px;
 `;
 
 export const Logo = styled.img`
@@ -27,8 +28,7 @@ export const NavTitle = styled.h1`
 `;
 
 export const Nav = styled.nav`
-  background-color: #424242
-;
+  background-color: #424242;
 `;
 export const Ul = styled.ul`
   ${(props) => {
@@ -68,6 +68,7 @@ export const Li = styled.li`
   }}
 `;
 
-export const LinkStyled = {
-  textDecoration: "none"
-}
+export const LinkStyled = styled(Link)`
+  color: white;
+  text-decoration: none;
+`;

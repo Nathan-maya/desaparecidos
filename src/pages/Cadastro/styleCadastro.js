@@ -66,6 +66,13 @@ export const InputFile = {
   display: 'none',
 };
 
+export const List = {
+  color: "black",
+  width:" 100%",
+  backgroundColor: "#ffffff",
+  borderRadius: "0 0 5px 5px"
+}
+
 export const Mistakes = styled.div`
   color: #d8000c;
   border: 1px solid;
