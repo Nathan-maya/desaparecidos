@@ -67,11 +67,11 @@ export const InputFile = {
 };
 
 export const List = {
-  color: "black",
-  width:" 100%",
-  backgroundColor: "#ffffff",
-  borderRadius: "0 0 5px 5px"
-}
+  color: 'black',
+  width: ' 100%',
+  backgroundColor: '#ffffff',
+  borderRadius: '0 0 5px 5px',
+};
 
 export const Mistakes = styled.div`
   color: #d8000c;
@@ -93,5 +93,11 @@ export const Success = styled.div`
   background-image: url('https://i.imgur.com/Q9BGTuy.png');
   background-repeat: no-repeat;
   background-position: 10px center;
-  
+`;
+
+export const Ul = styled.ul``;
+export const Li = styled.li`
+  cursor: pointer;
+  color: black;
+  padding-left:20px;
 `;

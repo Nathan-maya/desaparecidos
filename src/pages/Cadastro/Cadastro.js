@@ -10,6 +10,8 @@ import {
   LabelFotos,
   Wrapper,
   Success,
+  Ul,
+  Li,
 } from './styleCadastro';
 
 import { addMissing } from '../../redux/apiCalls';
@@ -19,18 +21,15 @@ import Header from '../../components/Header/Header';
 import { clearFile } from '../../redux/fileSlice';
 import validationInputs from '../../helpers/validationInputs';
 import formatDate from '../../helpers/formatDate';
-import { AutoComplete } from '../../components/AutoComplete/AutoComplete';
+import { autoComplete } from '../../helpers/autoComplete';
 
 const Cadastro = () => {
   const [inputs, setInputs] = useState({});
   const [files, setFiles] = useState([]);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState([]);
-  const [estadoAutoComplete, setEstadoAutoComplete] = useState([]);
   const dispatch = useDispatch();
-
   const maxDate = new Date().toISOString().split('T')[0];
-
   const {
     register,
     handleSubmit,
@@ -48,9 +47,9 @@ const Cadastro = () => {
   const selector = useSelector((state) => {
     return state.files;
   });
-  const requiredMessage = Object.values(errors);
 
-  
+  /* Taking the errors from the form and putting them in an array. */
+  const requiredMessage = Object.values(errors);
 
   /* It takes the event object, and then it sets the state of the inputs to the previous state, and then
    * it returns the previous state with the new value of the input.
@@ -63,12 +62,6 @@ const Cadastro = () => {
     if (selector.files.length > 0) {
       dispatch(clearFile());
     }
-    if(estadoAutoComplete?.length>0) {
-      e.target.value = estadoAutoComplete
-      setEstadoAutoComplete(null)
-      console.log(estadoAutoComplete)
-    }
-
   };
 
   /**
@@ -92,6 +85,7 @@ const Cadastro = () => {
     setError([]);
     requiredMessage.push();
 
+    /* Uploading the files to firebase storage. */
     await uploadFile(files, dispatch);
 
     if (Object.keys(inputs).length >= 6) {
@@ -129,6 +123,16 @@ firebase storage, if they are, it is adding the missing person to the database. 
     }
   }, [selector, dispatch, inputs, error, files]);
 
+  //AUTOCOMPLETE
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const getAllSuggestions = autoComplete();
+  const suggestions = getAllSuggestions.filter((option) =>
+    option.toLowerCase().includes(inputs.municipio?.toLowerCase()),
+  );
+  const handleSuggestionClick = (suggestion) => {
+    inputs.municipio = suggestion;
+    setShowSuggestions(false);
+  };
   return (
     <Container>
       <Header />
@@ -191,24 +195,29 @@ firebase storage, if they are, it is adding the missing person to the database. 
           />
           <Label>Municipio:</Label>
           <Input
+            
             {...register('municipio', {
               required: { value: true, message: 'Inserir o municipio!' },
             })}
             placeholder="São Paulo - SP"
             type="text"
+            value={inputs.municipio || ''}
+            onFocus={() => {
+              setShowSuggestions(true);
+            }}
             onChange={(e) => {
               handleChange(e);
             }}
           />
-          {inputs?.municipio ? (
-            <AutoComplete
-              inputValue={inputs.municipio}
-              passChildEstado={setEstadoAutoComplete}
-            />
-          ) : (
-            false
+          {showSuggestions && (
+            <Ul>
+              {suggestions.map((suggestion) => (
+                <Li onClick={() => handleSuggestionClick(suggestion)} key={suggestion}>
+                  {suggestion}
+                </Li>
+              ))}
+            </Ul>
           )}
-
           <Label htmlFor="img" style={LabelFotos}>
             Fotos
           </Label>
@@ -221,6 +230,7 @@ firebase storage, if they are, it is adding the missing person to the database. 
             onChange={onFileChange}
             alt="fotos de desaparecidos"
           />
+
 
           <Input type="submit" />
           {/* <Button onClick={handleClick} type="submit">
