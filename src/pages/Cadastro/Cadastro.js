@@ -23,6 +23,8 @@ import validationInputs from '../../helpers/validationInputs';
 import formatDate from '../../helpers/formatDate';
 import { autoComplete } from '../../helpers/autoComplete';
 
+const getAllSuggestions = autoComplete();
+
 const Cadastro = () => {
   const [inputs, setInputs] = useState({});
   const [files, setFiles] = useState([]);
@@ -30,6 +32,7 @@ const Cadastro = () => {
   const [error, setError] = useState([]);
   const dispatch = useDispatch();
   const maxDate = new Date().toISOString().split('T')[0];
+
   const {
     register,
     handleSubmit,
@@ -51,17 +54,16 @@ const Cadastro = () => {
   /* Taking the errors from the form and putting them in an array. */
   const requiredMessage = Object.values(errors);
 
-  /* It takes the event object, and then it sets the state of the inputs to the previous state, and then
-   * it returns the previous state with the new value of the input.
-   * @param e - the event object
-   */
+
+/**
+ * It takes the current state of the inputs, and then returns a new state of the inputs, with the new
+ * value of the input that was changed.
+ * @param e - the event object
+ */
   const handleChange = (e) => {
     setInputs((prev) => {
       return { ...prev, [e.target.name]: e.target.value };
     });
-    if (selector.files.length > 0) {
-      dispatch(clearFile());
-    }
   };
 
   /**
@@ -76,11 +78,16 @@ const Cadastro = () => {
     }
   };
 
-  /**
-   * It takes the files from the input field, and uploads them to firebase storage.
-   * @param e - The event object.
-   */
-  const handleClick = async (e) => {
+
+/**
+ * It handles the click event of the submit button
+ * @param data - {
+ */
+  const handleClick = async (data) => {
+    if (selector.files.length > 0) {
+      dispatch(clearFile());
+    }
+    setInputs(data);
     setSuccess(false);
     setError([]);
     requiredMessage.push();
@@ -118,6 +125,9 @@ firebase storage, if they are, it is adding the missing person to the database. 
       fetchUpload();
 
       error.length === 0 ? setSuccess(true) : setSuccess(false);
+      Array.from(document.querySelectorAll('input')).forEach((input) =>
+        input.value='',
+      );
       setInputs('');
       setFiles([]);
     }
@@ -125,7 +135,7 @@ firebase storage, if they are, it is adding the missing person to the database. 
 
   //AUTOCOMPLETE
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const getAllSuggestions = autoComplete();
+
   const suggestions = getAllSuggestions.filter((option) =>
     option.toLowerCase().includes(inputs.municipio?.toLowerCase()),
   );
@@ -133,6 +143,8 @@ firebase storage, if they are, it is adding the missing person to the database. 
     inputs.municipio = suggestion;
     setShowSuggestions(false);
   };
+
+  console.count('render');
   return (
     <Container>
       <Header />
@@ -146,7 +158,6 @@ firebase storage, if they are, it is adding the missing person to the database. 
             })}
             placeholder="João Gabriel"
             type="text"
-            onChange={handleChange}
           />
           <Label htmlFor="idade">Idade:</Label>
           <Input
@@ -155,7 +166,6 @@ firebase storage, if they are, it is adding the missing person to the database. 
             })}
             placeholder="23"
             type="text"
-            onChange={handleChange}
             maxLength={2}
           />
           <Label htmlFor="endereco">Endereço:</Label>
@@ -165,7 +175,6 @@ firebase storage, if they are, it is adding the missing person to the database. 
             })}
             placeholder="Rua Exemplo, 123"
             type="text"
-            onChange={handleChange}
           />
           <Label htmlFor="endereco">E-mail de contato:</Label>
           <Input
@@ -177,7 +186,6 @@ firebase storage, if they are, it is adding the missing person to the database. 
             })}
             placeholder="exemplo@gmail.com"
             type="email"
-            onChange={handleChange}
           />
           <Label htmlFor="data">Data Do Desaparecimento:</Label>
           <Input
@@ -189,35 +197,36 @@ firebase storage, if they are, it is adding the missing person to the database. 
             })}
             type="date"
             placeholder="23/05/1999"
-            onChange={handleChange}
             max={maxDate}
             id="formatMaxDate"
           />
           <Label>Municipio:</Label>
           <Input
-            
             {...register('municipio', {
               required: { value: true, message: 'Inserir o municipio!' },
             })}
             placeholder="São Paulo - SP"
             type="text"
             value={inputs.municipio || ''}
+            onChange={handleChange}
             onFocus={() => {
               setShowSuggestions(true);
             }}
-            onChange={(e) => {
-              handleChange(e);
-            }}
           />
-          {showSuggestions && (
-            <Ul>
-              {suggestions.map((suggestion) => (
-                <Li onClick={() => handleSuggestionClick(suggestion)} key={suggestion}>
-                  {suggestion}
-                </Li>
-              ))}
-            </Ul>
-          )}
+          {suggestions.length < 50 &&
+            suggestions.length > 0 &&
+            showSuggestions && (
+              <Ul visible="visible">
+                {suggestions.map((suggestion, index) => (
+                  <Li
+                    onClick={() => handleSuggestionClick(suggestion)}
+                    key={index}
+                  >
+                    {suggestion}
+                  </Li>
+                ))}
+              </Ul>
+            )}
           <Label htmlFor="img" style={LabelFotos}>
             Fotos
           </Label>
@@ -230,7 +239,6 @@ firebase storage, if they are, it is adding the missing person to the database. 
             onChange={onFileChange}
             alt="fotos de desaparecidos"
           />
-
 
           <Input type="submit" />
           {/* <Button onClick={handleClick} type="submit">

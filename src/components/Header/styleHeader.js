@@ -13,6 +13,7 @@ export const Container = styled.section`
 
 export const Logo = styled.img`
   cursor: pointer;
+  height: 200px;
   width: 200px;
   max-width: 100%;
   object-fit: cover;

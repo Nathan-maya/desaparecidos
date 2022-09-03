@@ -23,10 +23,11 @@ const validateDate = (date) => {
 
 export default function validationInputs(inputs) {
   const error = [];
+  console.log(inputs.idade)
   if (!validateName(inputs.nome)) {
     error.push('Nome inválido!');
   }
-  if (!validateNumber(inputs.idade && inputs.idade.length>3)) {
+  if (!validateNumber(inputs.idade) || inputs.idade.length>3) {
     error.push('Idade inválida!');
   }
   if (!validateEmail(inputs.email)) {

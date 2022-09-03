@@ -15,7 +15,7 @@ const Header = () => {
   return (
     <>
       <Container>
-        <Logo src={LogoImg} />
+        <Logo src={LogoImg} alt ="logo SOS"/>
         <Cabecalho>
           <Nav nav="nav-superior">
             <Ul nav="nav-superior">

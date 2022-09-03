@@ -95,9 +95,14 @@ export const Success = styled.div`
   background-position: 10px center;
 `;
 
-export const Ul = styled.ul``;
+export const Ul = styled.ul`
+  background: #303245;
+  border-radius: 12px;
+  padding: 20px;
+  opacity: 0;
+  transition: 0.9s ease-out;
+  ${(props) => (props.visible ? 'opacity: 1' : 'opacity:0')}
+`;
 export const Li = styled.li`
   cursor: pointer;
-  color: black;
-  padding-left:20px;
 `;

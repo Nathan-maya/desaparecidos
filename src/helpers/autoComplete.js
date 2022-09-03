@@ -1,10 +1,10 @@
-import { estados } from '../dataEstadosMunicipios';
+import { cidades } from '../dataEstadosMunicipios';
 
 export function autoComplete() {
   let filterState = []
-  estados.forEach((todosEstados) => {
-    todosEstados.forEach((estados)=>{
-      filterState.push(estados.toLowerCase())
+  cidades.forEach((todasCidades) => {
+    todasCidades.forEach((Cidades)=>{
+      filterState.push(Cidades.toLowerCase())
     })
   });
   return filterState
