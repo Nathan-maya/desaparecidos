@@ -52,3 +52,28 @@ export const Link = styled.a`
   text-decoration: underline;
   cursor: pointer;
 `;
+
+export const Button = styled.button`
+  background-color: #303245;
+  border-radius: 12px;
+  border: 0;
+  box-sizing: border-box;
+  color: #fafafa;
+  font-size: 18px;
+  height: 100%;
+  outline: 0;
+  padding: 10px 20px 10px;
+  width: 100%;
+  cursor: pointer;
+`;
+
+export const Mistakes = styled.div`
+  color: #d8000c;
+  border: 1px solid;
+  padding: 15px 10px 15px 50px;
+  background: #ffbaba;
+  background-repeat: no-repeat;
+  background-position: 10px center;
+  background-image: url('https://i.imgur.com/GnyDvKN.png');
+`;
+

@@ -3,7 +3,8 @@ import React from 'react';
 
 
 import Header from '../../components/Header/Header';
-import Register from '../../components/Register/Register'
+// import RegisterMissing from '../../components/Register/RegisterMissing'
+import RegisterUser from '../../components/Register/RegisterUser';
 import { Container, Wrapper } from './styleCadastro';
 
 
@@ -13,7 +14,7 @@ const Cadastro = () => {
     <Container>
       <Header />
       <Wrapper>
-        <Register/>
+        <RegisterUser/>
       </Wrapper>
     </Container>
   );

@@ -39,7 +39,7 @@ const schema = Yup.object().shape({
   img: Yup.mixed().required('Field is required'),
 });
 
-const Register = () => {
+const RegisterMissing = () => {
   const [inputs, setInputs] = useState({});
   const [files, setFiles] = useState([]);
   const [municipio, setMunicipio] = useState([]);
@@ -210,4 +210,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default RegisterMissing;
