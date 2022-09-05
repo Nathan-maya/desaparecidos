@@ -112,8 +112,8 @@ const Register = () => {
     <Container>
       <Wrapper
         validationSchema={schema}
-        // validateOnChange={false}
-        // validateOnBlur={false}
+        validateOnChange={false}
+        validateOnBlur={false}
         initialValues={{
           nome: '',
         }}

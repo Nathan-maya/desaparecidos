@@ -15,7 +15,7 @@ const Header = () => {
   return (
     <>
       <Container>
-        <Logo src={LogoImg} alt ="logo SOS"/>
+        <Logo src={LogoImg} alt="logo SOS" />
         <Cabecalho>
           <Nav nav="nav-superior">
             <Ul nav="nav-superior">
@@ -37,7 +37,9 @@ const Header = () => {
           <Li>
             <LinkStyled to="/register">Cadastro</LinkStyled>
           </Li>
-          <Li>Notícias</Li>
+          <Li>
+            <LinkStyled to="/login">Login</LinkStyled>
+          </Li>
         </Ul>
       </Nav>
     </>

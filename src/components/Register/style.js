@@ -5,9 +5,6 @@ export const Container = styled.section`
   color: #fafafa;
 `;
 export const Wrapper = styled(Formik)`
-  display: flex;
-  justify-content: center;
-  align-items: center;
 `;
 export const Forms = styled(Form)`
   margin: 20px 62px;
