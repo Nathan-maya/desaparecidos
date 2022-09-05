@@ -6,11 +6,11 @@ import {
   Input,
   Label,
   Mistakes,
+  Success,
   Wrapper,
 } from './style';
 import * as Yup from 'yup';
 import { register } from '../../redux/apiCalls';
-
 
 const schema = Yup.object().shape({
   username: Yup.string()
@@ -38,11 +38,21 @@ const RegisterUser = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
-  const handleClick = (values) => {
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState(false);
+
+  const handleClick = async (values) => {
     setUsername(values.username);
     setPassword(values.password);
     setEmail(values.email);
-    register({ username, password, email });
+    const res = await register({ username, password, email });
+    console.log(res);
+    if (res.status !== 201) {
+      setError(res.response.data);
+    } else {
+      setError('')
+      setSuccess(true);
+    }
   };
 
   return (
@@ -68,7 +78,11 @@ const RegisterUser = () => {
             {props.errors.username && (
               <Mistakes>{props.errors.username}</Mistakes>
             )}
-            <Input name="username" placeholder="nathan.maia" autoComplete="username" />
+            <Input
+              name="username"
+              placeholder="nathan.maia"
+              autoComplete="username"
+            />
             <Label htmlFor="password">Senha: </Label>
             {props.errors.password && (
               <Mistakes>{props.errors.password}</Mistakes>
@@ -92,7 +106,8 @@ const RegisterUser = () => {
             <Label htmlFor="email">E-mail:</Label>
             {props.errors.email && <Mistakes>{props.errors.email}</Mistakes>}
             <Input name="email" placeholder="exemplo@exemplo.com" />
-
+            {error && <Mistakes>{error}</Mistakes>}
+            {success && <Success>Cadastrado com sucesso!Faça o login</Success>}
             <Button type="submit">Cadastrar</Button>
           </Forms>
         )}

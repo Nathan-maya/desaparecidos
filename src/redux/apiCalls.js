@@ -26,9 +26,9 @@ export const addMissing = async (missing, dispatch) => {
 export const login = async(user,dispatch)=>{
   dispatch(loginStart());
   try{
-    const res = await publicRequest.post(`auth/login`,user)
-    console.log('realizando login')
+    const res = await publicRequest.post('auth/login',user)
     await dispatch(loginSuccess(res.data))
+    return res
   } catch(err){
     console.log(err)
     dispatch(loginFailure())
@@ -37,9 +37,9 @@ export const login = async(user,dispatch)=>{
 
 export const register = async(register)=>{
   try{
-    await publicRequest.post('auth/register',register)
-    console.log('enviando cadastro')
+    return await publicRequest.post('auth/register',register)
+    
   }catch(err){
-    console.log(err)
+    return err
   }
 }

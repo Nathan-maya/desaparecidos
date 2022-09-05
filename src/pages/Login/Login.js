@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Button,
   Container,
@@ -14,6 +14,7 @@ import Header from '../../components/Header/Header';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../../redux/apiCalls';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 const schema = Yup.object().shape({
   username: Yup.string()
@@ -31,28 +32,43 @@ const schema = Yup.object().shape({
 });
 
 const Login = () => {
-  const [username, setUsername] = useState(['']);
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [mistake, setMistake] = useState('');
+  const navagite = useNavigate();
 
   const dispatch = useDispatch();
   const { isFetching, error } = useSelector((state) => state.user);
 
-
-  const handleClick = (values) => {
+  const handleClick = async (values) => {
     setUsername(values.username);
     setPassword(values.password);
-    login({ username, password },dispatch);
   };
 
-  console.log('OIIEEE');
+
+  useEffect(() => {
+    const Login = async () => {
+      const res = await login({ username, password }, dispatch);
+      if (res.status !== 200) {
+        setMistake(res.response.data);
+      } else {
+        navagite('/');
+      }
+    };
+    if(username){
+      Login()
+    }
+
+  },[dispatch, navagite, password, username]);
+
   return (
     <Container>
       <Header />
       <ContainerForm>
         <Wrapper
           validationSchema={schema}
-          // validateOnChange={false}
-          // validateOnBlur={false}
+          validateOnChange={false}
+          validateOnBlur={false}
           initialValues={{
             username: '',
             password: '',
@@ -75,11 +91,12 @@ const Login = () => {
                 <Mistakes>{props.errors.password}</Mistakes>
               )}
               <Input name="password" type="password" />
-              <Button type="submit" disabled={isFetching}>Entrar</Button>
+              <Button type="submit" disabled={isFetching}>
+                Entrar
+              </Button>
               {error && <Mistakes>Usuário ou senha estão incorretos!</Mistakes>}
               <Link>Esqueceu a senha?</Link>
               <Link>Não tem uma conta? Crie uma!</Link>
-
             </Forms>
           )}
         </Wrapper>
