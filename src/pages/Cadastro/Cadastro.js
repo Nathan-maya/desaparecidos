@@ -44,7 +44,6 @@ const Cadastro = () => {
       endereco: '',
       email: '',
       data: '',
-      municipio: '',
     },
   });
   const selector = useSelector((state) => {
@@ -64,6 +63,7 @@ const Cadastro = () => {
     setInputs((prev) => {
       return { ...prev, [e.target.name]: e.target.value };
     });
+    console.log(inputs)
   };
 
   /**
@@ -84,9 +84,12 @@ const Cadastro = () => {
  * @param data - {
  */
   const handleClick = async (data) => {
+    console.log(data.municipio)
     if (selector.files.length > 0) {
       dispatch(clearFile());
     }
+
+    
     setInputs(data);
     setSuccess(false);
     setError([]);
@@ -139,8 +142,11 @@ firebase storage, if they are, it is adding the missing person to the database. 
   const suggestions = getAllSuggestions.filter((option) =>
     option.toLowerCase().includes(inputs.municipio?.toLowerCase()),
   );
+
   const handleSuggestionClick = (suggestion) => {
     inputs.municipio = suggestion;
+    console.log(e.target)
+    handleChange(e);
     setShowSuggestions(false);
   };
 
@@ -204,11 +210,12 @@ firebase storage, if they are, it is adding the missing person to the database. 
           <Input
             {...register('municipio', {
               required: { value: true, message: 'Inserir o municipio!' },
+              onChange:(e)=>{handleChange(e)}
             })}
             placeholder="São Paulo - SP"
             type="text"
             value={inputs.municipio || ''}
-            onChange={handleChange}
+
             onFocus={() => {
               setShowSuggestions(true);
             }}
@@ -219,7 +226,7 @@ firebase storage, if they are, it is adding the missing person to the database. 
               <Ul visible="visible">
                 {suggestions.map((suggestion, index) => (
                   <Li
-                    onClick={() => handleSuggestionClick(suggestion)}
+                    onClick={(e) => handleSuggestionClick(suggestion)}
                     key={index}
                   >
                     {suggestion}
