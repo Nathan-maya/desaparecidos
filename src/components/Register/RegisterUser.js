@@ -10,7 +10,7 @@ import {
   Wrapper,
 } from './style';
 import * as Yup from 'yup';
-import { register } from '../../redux/apiCalls';
+import { register } from '../../API/apiCalls';
 
 const schema = Yup.object().shape({
   username: Yup.string()

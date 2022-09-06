@@ -29,13 +29,15 @@ const Header = () => {
   const dispatch = useDispatch();
   const handleLogout = () => {
     dispatch(logout());
-    navigate('/login')
+    navigate('/login');
   };
 
   return (
     <>
       <Container>
-        <Logo src={LogoImg} alt="logo SOS" />
+        <LinkStyled to="/">
+          <Logo src={LogoImg} alt="logo SOS" />
+        </LinkStyled>
         <Cabecalho>
           <Nav nav="nav-superior">
             <Ul nav="nav-superior">

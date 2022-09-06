@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 
 export const Container = styled.section`
@@ -36,11 +37,17 @@ export const slide = {
 export const SlideContent = styled.div`
   display: flex;
   margin-bottom: 40px;
+
+`;
+export const LinkStyled = styled(Link)`
   > img {
     max-width: 15rem;
     max-height: 15rem;
+    cursor:pointer
   }
 `;
+
+
 
 const rodando = keyframes`
   0%{

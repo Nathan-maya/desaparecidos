@@ -8,7 +8,7 @@ export const ContainerForm = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 25vh;
+  margin-top: 40px;
 `;
 export const Wrapper = styled(Formik)`
 
@@ -18,7 +18,7 @@ export const Forms = styled(Form)`
   display: flex;
   flex-direction: column;
   gap: 10px;
-  width: 300px;
+  width: 400px;
   border-radius: 20px;
   box-sizing: border-box;
   background-color: #fafafa;

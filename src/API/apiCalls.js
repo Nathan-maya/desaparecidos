@@ -1,12 +1,12 @@
 import { publicRequest } from '../requestMethod';
-import { clearFile } from './fileSlice';
+import { clearFile } from '../redux/fileSlice';
 
 import {
   addMissingFailure,
   addMissingStart,
   addMissingSuccess,
-} from './missingRedux';
-import { loginFailure, loginStart, loginSuccess } from './userSlice';
+} from '../redux/missingRedux';
+import { loginFailure, loginStart, loginSuccess } from '../redux/userSlice';
 
 
 export const addMissing = async (missing, dispatch) => {
@@ -44,9 +44,17 @@ export const register = async(register)=>{
   }
 }
 
-export const imgs = async()=>{
+export const findFirstImg = async()=>{
   try{
-    return await publicRequest.get('missing/img')
+    return await publicRequest.get('missing/find/img')
+  }catch(err){
+    return err
+  }
+}
+
+export const findOneMissing = async(id)=>{
+  try{
+    return await publicRequest.get(`missing/find/missing/${id}`)
   }catch(err){
     return err
   }

@@ -15,12 +15,12 @@ import {
   ContainerAviso,
   number,
   span,
-  Ring,
-  RingDiv,
   Loading,
+  LinkStyled,
 } from './styleSlide';
 import { useDispatch } from 'react-redux';
-import { imgs } from '../../redux/apiCalls';
+import { findFirstImg } from '../../API/apiCalls';
+
 
 const Slider = () => {
   const [images, setImages] = useState([]);
@@ -30,7 +30,7 @@ const Slider = () => {
   useEffect(() => {
     async function getImg() {
       setLoading(true);
-      const res = await dispatch(imgs);
+      const res = await dispatch(findFirstImg);
       if (res.status === 200) {
         setLoading(false);
       }
@@ -57,13 +57,19 @@ const Slider = () => {
         autoplay={{ delay: 3000 }}
         style={slide}
       >
-        {images?.map((image, index) => (
-          <SwiperSlide key={index}>
-            <SlideContent>
-              <img src={image} alt="foto de pessoa desaparecida" />
-            </SlideContent>
-          </SwiperSlide>
-        ))}
+        {images?.map(
+          (image, index) => (
+            (
+              <SwiperSlide key={index}>
+                <SlideContent>
+                  <LinkStyled to={'missing/'+image[0]}>
+                    <img src={image[1]} alt="foto de pessoa desaparecida" />
+                  </LinkStyled>
+                </SlideContent>
+              </SwiperSlide>
+            )
+          ),
+        )}
       </Swiper>
     </Container>
   );

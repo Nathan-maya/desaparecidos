@@ -13,8 +13,8 @@ import {
 import Header from '../../components/Header/Header';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
-import { login } from '../../redux/apiCalls';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { login } from '../../API/apiCalls';
+import { useNavigate } from 'react-router-dom';
 
 const schema = Yup.object().shape({
   username: Yup.string()
@@ -45,7 +45,6 @@ const Login = () => {
     setPassword(values.password);
   };
 
-
   useEffect(() => {
     const Login = async () => {
       const res = await login({ username, password }, dispatch);
@@ -55,11 +54,10 @@ const Login = () => {
         navagite('/');
       }
     };
-    if(username){
-      Login()
+    if (username) {
+      Login();
     }
-
-  },[dispatch, navagite, password, username]);
+  }, [dispatch, navagite, password, username]);
 
   return (
     <Container>
