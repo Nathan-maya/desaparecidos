@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Autoplay } from 'swiper';
 
-import { images } from '../../images';
+// import { images } from '../../images';
 import 'swiper/css';
 
 import 'swiper/css/pagination';
@@ -15,9 +15,29 @@ import {
   ContainerAviso,
   number,
   span,
+  Ring,
+  RingDiv,
+  Loading,
 } from './styleSlide';
+import { useDispatch } from 'react-redux';
+import { imgs } from '../../redux/apiCalls';
 
 const Slider = () => {
+  const [images, setImages] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    async function getImg() {
+      setLoading(true);
+      const res = await dispatch(imgs);
+      if (res.status === 200) {
+        setLoading(false);
+      }
+      setImages(res.data);
+    }
+    getImg();
+  }, [dispatch]);
   return (
     <Container>
       <ContainerAviso>
@@ -27,6 +47,7 @@ const Slider = () => {
         </span>
       </ContainerAviso>
 
+      {loading && <Loading />}
       <Swiper
         modules={[Pagination, Autoplay]}
         slidesPerView={6}
@@ -36,10 +57,10 @@ const Slider = () => {
         autoplay={{ delay: 3000 }}
         style={slide}
       >
-        {images.map((image, index) => (
+        {images?.map((image, index) => (
           <SwiperSlide key={index}>
             <SlideContent>
-              <img src={image.img} alt="foto de pessoa desaparecida" />
+              <img src={image} alt="foto de pessoa desaparecida" />
             </SlideContent>
           </SwiperSlide>
         ))}

@@ -43,3 +43,11 @@ export const register = async(register)=>{
     return err
   }
 }
+
+export const imgs = async()=>{
+  try{
+    return await publicRequest.get('missing/img')
+  }catch(err){
+    return err
+  }
+}
