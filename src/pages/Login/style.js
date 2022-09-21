@@ -54,7 +54,7 @@ export const Link = styled.a`
 `;
 
 export const Button = styled.button`
-  background-color: #303245;
+  background-color: #F88B61;
   border-radius: 12px;
   border: 0;
   box-sizing: border-box;
@@ -65,6 +65,11 @@ export const Button = styled.button`
   padding: 10px 20px 10px;
   width: 100%;
   cursor: pointer;
+  transition: 0.5s;
+
+  &:hover{
+    background: #303245;
+  }
 `;
 
 export const Mistakes = styled.div`

@@ -18,7 +18,7 @@ export const Forms = styled(Form)`
   padding: 20px;
 `;
 export const Input = styled(Field)`
-  background-color: #303245;
+  background-color: #343434;
   border-radius: 12px;
   border: 0;
   box-sizing: border-box;
@@ -47,7 +47,7 @@ export const LabelFotos = {
   cursor: 'pointer',
 };
 export const Button = styled.button`
-  background-color: #303245;
+  background-color: #F88B61;
   border-radius: 12px;
   border: 0;
   box-sizing: border-box;
@@ -58,6 +58,11 @@ export const Button = styled.button`
   padding: 10px 20px 10px;
   width: 100%;
   cursor: pointer;
+  transition: 0.5s;
+
+  &:hover{
+    background: #303245;
+  }
 `;
 export const InputFile = {
   display: 'none',

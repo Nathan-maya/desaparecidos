@@ -12,7 +12,6 @@ export const ContainerAviso = styled.div`
   align-items: center;
   justify-content: center;
   gap: 15px;
-  background: #fafafa;
   padding: 20px;
   margin-bottom: 20px;
   border-radius: 5px;
@@ -21,13 +20,16 @@ export const ContainerAviso = styled.div`
 export const Title = styled.h1`
   font-size: 24px;
   text-align: center;
+  color:#fafafa;
 `;
 export const span = {
   fontSize: '24px',
+  color:'#fafafa',
 };
 export const number = {
   fontSize: '36px',
   fontWeight: 'bold',
+  color:'#F88B61',
 };
 export const P = styled.p``;
 export const slide = {
@@ -41,6 +43,8 @@ export const SlideContent = styled.div`
 `;
 export const LinkStyled = styled(Link)`
   > img {
+    width: 100%; 
+    height: 100%;
     max-width: 15rem;
     max-height: 15rem;
     cursor:pointer
